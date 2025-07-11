@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <!--    meta data-->
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="theme-color" content="#000000"/>
@@ -17,11 +18,10 @@
     <meta name="twitter:card" content="summary_large_image"/>
     <meta name="twitter:image" content="/logo.svg"/>
 
-
-    <!--    Fonts & CSS-->
+        <!--    CSS & Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&display=Cursive"
           rel="stylesheet">
     <link rel="stylesheet" href="output.css"/>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"/>
@@ -29,16 +29,50 @@
           href="https://cdn.jsdelivr.net/npm/keen-slider@6.8.5/keen-slider.min.css"
     />
     <link rel="stylesheet" href="./styles.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify/dist/simple-notify.css"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@marqueefy/marqueefy@1.0.3/dist/css/marqueefy.min.css"
+          integrity="sha384-wADgvhAqbORDLWCl6LHRmwaldDxcsCZJ9EfC4tyLmlqRSrxK8SQSmUprPJYdtCZb"
+          crossorigin="anonymous">
+    <style>
+        #example3 {
+            --mq-border-width: 4px;
+            --mq-border-style: dashed;
+            --mq-padding-x: 20px;
+            height: 75px;
+            width: 75%;
+            background-color: rgba(128, 128, 128, 0.1); /* Grey with 0.10% opacity */
+        }
 
-    <!--    CDN libraries -->
-    <script src="https://unpkg.com/@strudel/embed@latest"></script>
-    <script src="https://unpkg.com/@strudel/repl@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/keen-slider@6.8.5/keen-slider.min.js"></script>
+        .marqueefy .content {
+            font-weight: bold;
+            color: black;
+            text-transform: uppercase;
+            font-size: 2.2em;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            white-space: nowrap;
+        }
+
+        #countdown-display {
+            display: block;
+            flex-shrink: 0;
+        }
+    </style>
 </head>
 
-<!--HackClub Flag-->
+        <!--piano background, marqueefy and hackclub logo/nav-->
 <body class="bg-pink-500 heropattern-pianoman-red-100/50 min-h-screen flex flex-col items-center justify-center">
+
+<div class="marqueefy w-full" id="example3" data-mq-speed="10" tabindex="0" class="align-content-center">
+    <div class="content">
+        <span id="countdown-display" class="item">REMIX CHALLENGE ENDS: Today at 12:59 pm EST.</span>
+    </div>
+</div>
+
 <a href="http://hackclub.com" class="absolute top-0 left-0 right-20">
     <img
             src="./flag.svg"
@@ -46,7 +80,8 @@
     />
 </a>
 
-<!--  Description/ HERO  -->
+
+    <!--descripion of the challenge -->
 <section class="w-full max-w-3xl mx-auto items-center mt-16">
     <p class="text-bg-dark font-bold text-center text-2xl md:text-3xl"
        style="font-family: 'Bitcount Grid Double', monospace;">
@@ -59,23 +94,25 @@
     </p>
 </section>
 
-
-
-<!--Row with Logo, Strudel Editor and Submit Button-->
+    <!--Strudel Repl Editor and Remix logo-->
 <section class="w-full max-w-max mx-auto mt-4 mb-4 p-6 flex flex-row items-center justify-center gap-4">
     <img src="logo.svg" alt="Remix Logo" class="w-104 h-64">
 
     <main id="strudel" class="flex rounded-3 flex-col items-center justify-center">
-        <iframe
-                src="https://strudel.cc/#Ly8gQ2xpY2sgUExBWSDigLYgYW5kIHN0YXJ0IHJlbWl4aW5nIQoKc2V0Y3BzKDEpIC8vIFRlbXBvOiBUcnkgMC44IChmb3Igc2xvd2VyKSBvciAxLjIgKGZvciBmYXN0ZXIpCgpzdGFjaygKICAvLyBNQUlOIE1FTE9EWSAtIFRyeSBjaGFuZ2luZyB0aGUgbnVtYmVycyEKICBuKCI8MCAzIDUgNyAzIDUgMiAwPiIpLnNjYWxlKCdHNCBtaW5vcicpCiAgICAucygiZ21fZWxlY3RyaWNfcGlhbm9fMSIpCiAgICAuZ2FpbigwLjYpLAoKICAvLyBEUlVNUyAtIENoYW5nZSAiYmQgaGggc2QgaGgiIGZvciBkaWZmZXJlbnQgYmVhdHMhCiAgc291bmQoImJkIGhoIHNkIGhoIiksCgogIC8vIEJBU1MgLSBUcnkgZGlmZmVyZW50IG5vdGVzOiAiZzIgZDIgYzIgZzIiCiAgbm90ZSgiZzIgZDIgYzIgZzIiKQogICAgLnMoImdtX2Fjb3VzdGljX2Jhc3MiKQogICAgLmdhaW4oMS4xKQopCgovLyBFeHBlcmltZW50ISBUcnkgY2hhbmdpbmcgbnVtYmVycywgbm90ZXMsIG9yIHNvdW5kcyBhYm92ZS4KLy8gV2hlbiB5b3UncmUgaGFwcHksIGNsaWNrIFNIQVJFIGFuZCBzdWJtaXQgeW91ciBsaW5rIQ=="
-                width="600"
-                height="300"
-                class="rounded-lg shadow-lg"
-                title="Strudel Live Editor"
-                allowfullscreen
-                loading="lazy"
-        ></iframe>
+        <div class="iframe-container">
+            <div class="iframe-overlay"></div>
+            <iframe
+                    src="https://strudel.cc/#Ly8gQ2xpY2sgUExBWSDigLYgYW5kIHN0YXJ0IHJlbWl4aW5nIQoKc2V0Y3BzKDEpIC8vIFRlbXBvOiBUcnkgMC44IChmb3Igc2xvd2VyKSBvciAxLjIgKGZvciBmYXN0ZXIpCgpzdGFjaygKICAvLyBNQUlOIE1FTE9EWSAtIFRyeSBjaGFuZ2luZyB0aGUgbnVtYmVycyEKICBuKCI8MCAzIDUgNyAzIDUgMiAwPiIpLnNjYWxlKCdHNCBtaW5vcicpCiAgICAucygiZ21fZWxlY3RyaWNfcGlhbm9fMSIpCiAgICAuZ2FpbigwLjYpLAoKICAvLyBEUlVNUyAtIENoYW5nZSAiYmQgaGggc2QgaGgiIGZvciBkaWZmZXJlbnQgYmVhdHMhCiAgc291bmQoImJkIGhoIHNkIGhoIiksCgogIC8vIEJBU1MgLSBUcnkgZGlmZmVyZW50IG5vdGVzOiAiZzIgZDIgYzIgZzIiCiAgbm90ZSgiZzIgZDIgYzIgZzIiKQogICAgLnMoImdtX2Fjb3VzdGljX2Jhc3MiKQogICAgLmdhaW4oMS4xKQopCgovLyBFeHBlcmltZW50ISBUcnkgY2hhbmdpbmcgbnVtYmVycywgbm90ZXMsIG9yIHNvdW5kcyBhYm92ZS4KLy8gV2hlbiB5b3UncmUgaGFwcHksIGNsaWNrIFNIQVJFIGFuZCBzdWJtaXQgeW91ciBsaW5rIQ=="
+                    width="600"
+                    height="300"
+                    class="rounded-lg shadow-lg"
+                    title="Strudel Live Editor"
+                    allowfullscreen
+                    loading="lazy"
+            ></iframe>
+        </div>
 
+<!--        Submission and Slack nav button-->
         <section class="flex flex-row gap-4 mt-6">
             <button
                     type="button"
@@ -94,5 +131,90 @@
         </section>
     </main>
 </section>
+
+
+    <!--CDN's and Scripts-->
+<script src="https://unpkg.com/@strudel/embed@latest"></script>
+<script src="https://unpkg.com/@strudel/repl@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/keen-slider@6.8.5/keen-slider.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-notify/dist/simple-notify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@marqueefy/marqueefy@1.0.3/dist/js/marqueefy.min.js"
+        integrity="sha384-GkNdpzZA0aigYQs7bhB94ikrs1rxyzcoGZqE/KBxsvvsQPERiMHw4vrDlCgDewnu"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/countdown@2.6.0/countdown.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const countdownDisplay = document.getElementById('countdown-display');
+
+        function updateCountdown() {
+            const now = new Date();
+            let targetDate = new Date();
+
+            const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday, 6 = Saturday
+
+            // Set the target time to 12:59 PM (12 + 12 = 24h format for PM)
+            targetDate.setHours(12, 59, 0, 0);
+
+            // Determine the correct Friday
+            let daysToAdd = 0;
+            if (dayOfWeek === 5) { // If it's Friday
+                // If current time is after or at 12:59 PM today, target next Friday
+                if (now.getHours() > 12 || (now.getHours() === 12 && now.getMinutes() >= 59)) {
+                    daysToAdd = 7; // Go to next Friday
+                } else {
+                    daysToAdd = 0; // Target today (Friday)
+                }
+            } else if (dayOfWeek < 5) { // If it's Sunday to Thursday
+                daysToAdd = 5 - dayOfWeek; // Days until current week's Friday
+            } else { // If it's Saturday (dayOfWeek === 6)
+                daysToAdd = 6; // Days until next Friday
+            }
+
+            targetDate.setDate(now.getDate() + daysToAdd);
+
+            if (targetDate.getTime() < now.getTime()) {
+                targetDate.setDate(targetDate.getDate() + 7); // Move to the next week's Friday
+            }
+
+            const units = countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS;
+            const ts = countdown(now, targetDate, units);
+
+            let countdownString = "";
+            if (ts.value > 0) { // If countdown is still active
+                countdownString = "REMIX CHALLENGE ENDS IN: ";
+                if (ts.days) countdownString += `${ts.days} days, `;
+                if (ts.hours) countdownString += `${ts.hours} hours, `;
+                if (ts.minutes) countdownString += `${ts.minutes} minutes, `;
+                if (ts.seconds) countdownString += `${ts.seconds} seconds`;
+
+                // Remove trailing comma and space if present
+                if (countdownString.endsWith(', ')) {
+                    countdownString = countdownString.slice(0, -2);
+                }
+            } else { // Countdown has ended
+                countdownString = "REMIX CHALLENGE HAS ENDED!";
+                clearInterval(countdownInterval); // Stop updating
+            }
+
+            countdownDisplay.textContent = countdownString;
+            console.log("Countdown string:", countdownString);
+        }
+
+        // Initialize Marqueefy
+        const marqueefyElement = document.getElementById('example3');
+        if (marqueefyElement) {
+            const marqueefyList = Array.prototype.slice.call(document.querySelectorAll('.marqueefy'))
+            const marqueefyInstances = marqueefyList.map(m => {
+                return new marqueefy.Marqueefy(m, {direction: 'left', speed: 50})
+            })
+        }
+
+        // Start the countdown update loop
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call to display immediately
+    });
+</script>
 </body>
 </html>

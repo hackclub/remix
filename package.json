@@ -19,6 +19,7 @@
     "tailwindcss-hero-patterns": "^0.1.2"
   },
   "dependencies": {
-    "flowbite": "^3.1.2"
+    "flowbite": "^3.1.2",
+    "simple-notify": "^1.0.6"
   }
 }
