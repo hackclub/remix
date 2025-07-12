@@ -1,6 +1,6 @@
 ---
 
-# 🎵 YSWS - Remix Challenge
+# YSWS - Remix Challenge
 
 Welcome to the HackClub Remix Challenge! This project provides an interactive platform for you to unleash your creativity by remixing a Strudel beat. Dive in, make some music, and submit your unique sound to win exclusive stickers and get featured!
 
@@ -17,7 +17,7 @@ Ready to make some noise? It's super simple!
 
 ---
 
-## 📅 Remix Challenge Deadline
+## Remix Challenge Deadline
 
 
 
