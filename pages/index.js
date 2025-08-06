@@ -139,7 +139,7 @@ export default function Home() {
       </Head>
 
       <div className="bg-pink-500 min-h-screen flex flex-col items-center justify-center" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f87171' fill-opacity='0.5'%3E%3Cpath d='M20 20.5V18H0v-2h20v-.5A1.5 1.5 0 0 1 21.5 14h.5v2h-2v2h2v2h-.5a1.5 1.5 0 0 1-1.5-1.5z'/%3E%3C/g%3E%3C/svg%3E")`
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f87171' fill-opacity='0.5'%3E%3Cpath d='M0 40c0-6.627 5.373-12 12-12s12 5.373 12 12H0zm28 0c0-6.627 5.373-12 12-12v12H28zM0 28c6.627 0 12-5.373 12-12S6.627 4 0 4v24zM40 4c-6.627 0-12 5.373-12 12s5.373 12 12 12V4z'/%3E%3C/g%3E%3C/svg%3E")`
       }}>
         {/* Marquee Banner */}
         <div 
