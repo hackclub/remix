@@ -1,13 +1,26 @@
 module.exports = {
-  purge: [
-    './**/*.html',
-    './**/*.js',
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'bg-dark': '#333333',
+      },
+      width: {
+        '104': '24rem',
+      },
+      spacing: {
+        '104': '24rem',
+      },
+      fontFamily: {
+        'grid': ['"Bitcount Grid Double"', 'monospace'],
+      },
+    },
   },
   variants: {},
-  plugins: [
-    require('tailwindcss-hero-patterns'),
-  ],
+  plugins: [],
 }
