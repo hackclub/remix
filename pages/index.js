@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
+import Link from 'next/link'
 
 export default function Home() {
   useEffect(() => {
@@ -42,32 +43,24 @@ export default function Home() {
     function updateCountdown() {
       const now = new Date()
       let targetDate = new Date()
+      targetDate.setHours(12, 59, 0, 0) // Set time to 12:59 PM on the current day.
 
-      const dayOfWeek = now.getDay()
-      targetDate.setHours(12, 59, 0, 0)
+      const dayOfWeek = now.getDay() // 0=Sun, 1=Mon, ..., 5=Fri, 6=Sat
+      const targetDay = 5 // Friday
 
-      let daysToAdd = 0
-      if (dayOfWeek === 5) {
-        if (now.getHours() > 12 || (now.getHours() === 12 && now.getMinutes() >= 59)) {
-          daysToAdd = 7
-        } else {
-          daysToAdd = 0
-        }
-      } else if (dayOfWeek < 5) {
-        daysToAdd = 5 - dayOfWeek
-      } else {
-        daysToAdd = 6
+      let daysUntilTarget = (targetDay - dayOfWeek + 7) % 7
+
+      // If it's Friday and past 12:59, the target is next Friday.
+      if (dayOfWeek === targetDay && now.getTime() > targetDate.getTime()) {
+        daysUntilTarget = 7
       }
 
-      targetDate.setDate(now.getDate() + daysToAdd)
-
-      if (targetDate.getTime() < now.getTime()) {
-        targetDate.setDate(targetDate.getDate() + 7)
-      }
+      targetDate.setDate(now.getDate() + daysUntilTarget)
 
       if (typeof window !== 'undefined' && window.countdown) {
         const units = window.countdown.DAYS | window.countdown.HOURS | window.countdown.MINUTES | window.countdown.SECONDS
         const ts = window.countdown(now, targetDate, units)
+        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
         let countdownString = ""
         if (ts.value > 0) {
@@ -80,6 +73,7 @@ export default function Home() {
           if (countdownString.endsWith(', ')) {
             countdownString = countdownString.slice(0, -2)
           }
+          countdownString += ` (in your timezone: ${userTimezone})`
         } else {
           countdownString = "REMIX CHALLENGE HAS ENDED!"
         }
@@ -201,6 +195,14 @@ export default function Home() {
               >
                 Submit Remix
               </button>
+              {/*<Link href="/projects">*/}
+              {/*  <button*/}
+              {/*    type="button"*/}
+              {/*    className="w-48 h-16 bg-white text-lg font-bold text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"*/}
+              {/*  >*/}
+              {/*    View Projects*/}
+              {/*  </button>*/}
+              {/*</Link>*/}
               <button
                 type="button"
                 className="w-48 h-16 bg-white text-lg text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md"
