@@ -11,11 +11,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "flowbite": "^3.1.2",
     "next": "^14.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "flowbite": "^3.1.2",
-    "simple-notify": "^1.0.6"
+    "simple-notify": "^1.0.6",
+    "tailwindcss-hero-patterns": "^0.1.2"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
