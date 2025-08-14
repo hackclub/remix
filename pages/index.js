@@ -56,62 +56,37 @@ export default function Home() {
 
       targetDate.setDate(now.getDate() + daysUntilTarget)
 
-      // Always get timezone info, even if countdown library isn't loaded
+      // Always get timezone info
       const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-      if (typeof window !== 'undefined' && window.countdown) {
-        const units = window.countdown.DAYS | window.countdown.HOURS | window.countdown.MINUTES | window.countdown.SECONDS
-        const ts = window.countdown(now, targetDate, units)
+      // Use fallback countdown calculation only
+      const timeDiff = targetDate.getTime() - now.getTime()
+      if (timeDiff > 0) {
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000)
 
-        let countdownString = ""
-        if (ts.value > 0) {
-          countdownString = "REMIX CHALLENGE ENDS IN: "
-          if (ts.days) countdownString += `${ts.days} days, `
-          if (ts.hours) countdownString += `${ts.hours} hours, `
-          if (ts.minutes) countdownString += `${ts.minutes} minutes, `
-          if (ts.seconds) countdownString += `${ts.seconds} seconds`
+        let countdownString = "REMIX CHALLENGE ENDS IN: "
+        if (days) countdownString += `${days} days, `
+        if (hours) countdownString += `${hours} hours, `
+        if (minutes) countdownString += `${minutes} minutes, `
+        if (seconds) countdownString += `${seconds} seconds`
 
-          if (countdownString.endsWith(', ')) {
-            countdownString = countdownString.slice(0, -2)
-          }
-          countdownString += ` (in your timezone: ${userTimezone})`
-        } else {
-          countdownString = "REMIX CHALLENGE HAS ENDED!"
+        if (countdownString.endsWith(', ')) {
+          countdownString = countdownString.slice(0, -2)
         }
-
+        countdownString += ` (in your timezone: ${userTimezone})`
         setCountdownText(countdownString)
       } else {
-        // Fallback if countdown library doesn't load
-        const timeDiff = targetDate.getTime() - now.getTime()
-        if (timeDiff > 0) {
-          const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24))
-          const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-          const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))
-          const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000)
-
-          let countdownString = "REMIX CHALLENGE ENDS IN: "
-          if (days) countdownString += `${days} days, `
-          if (hours) countdownString += `${hours} hours, `
-          if (minutes) countdownString += `${minutes} minutes, `
-          if (seconds) countdownString += `${seconds} seconds`
-
-          if (countdownString.endsWith(', ')) {
-            countdownString = countdownString.slice(0, -2)
-          }
-          countdownString += ` (in your timezone: ${userTimezone})`
-          setCountdownText(countdownString)
-        } else {
-          setCountdownText("REMIX CHALLENGE HAS ENDED!")
-        }
+        setCountdownText("REMIX CHALLENGE HAS ENDED!")
       }
 
-      if (!isTimezoneReady) {
-        setIsTimezoneReady(true)
-      }
     }
 
-    const countdownInterval = setInterval(updateCountdown, 1000)
     updateCountdown()
+    setIsTimezoneReady(true)
+    const countdownInterval = setInterval(updateCountdown, 1000)
   }
 
   const initializeMarqueefy = () => {
@@ -163,25 +138,29 @@ export default function Home() {
       <div className="bg-pink-500 heropattern-pianoman-red-100/50 min-h-screen flex flex-col items-center justify-center"
       >
         {/* Marquee Banner */}
-        <div 
-          className="marqueefy w-full border-4 border-dashed px-5 mb-8" 
-          id="example3"
-          data-mq-speed="100"
-          style={{
-            height: '75px',
-            width: '75%',
-            backgroundColor: 'rgba(128, 128, 128, 0.1)'
-          }}
-        >
-          <div className="content flex items-center justify-center h-full">
-            <span id="countdown-display" className="font-bold text-black uppercase text-2xl">
-              {isTimezoneReady ? countdownText : 'Loading...'}
-            </span>
+        {isTimezoneReady && (
+          <div 
+            className="marqueefy w-full border-4 border-dashed px-5 mb-8" 
+            id="example3"
+            data-mq-speed="100"
+            style={{
+              height: '75px',
+              width: '75%',
+              backgroundColor: 'rgba(128, 128, 128, 0.1)'
+            }}
+          >
+            <div className="content flex items-center justify-center h-full">
+              <span id="countdown-display" className="font-bold text-black uppercase text-2xl">
+                {countdownText}
+              </span>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Hack Club Flag */}
-        <a href="http://hackclub.com" className="absolute top-0 left-0 right-20">
+        <a href="http://hackclub.com" className="absolute top-0 left-0 right-20"
+        style={{ backgroundSize: 'contain', width: '300px', height: '300px'}}
+        >
           <img src="/flag.svg" alt="Hack Club" />
         </a>
 
@@ -223,9 +202,20 @@ export default function Home() {
               >
                 Submit Remix
               </button>
+                <Link href="/projects"
+                      prefetch={true}
+                >
+                    <button
+                        type="button"
+                        className="w-48 h-16 bg-white text-lg font-bold text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
+                    >
+
+                        view projects
+                    </button>
+                </Link>
               <button
                 type="button"
-                className="w-48 h-16 bg-white text-lg text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md"
+                className="w-48 h-16 bg-white text-lg font-bold text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
                 onClick={() => window.open('https://join.slack.com/t/hackclub/shared_invite/zt-397pq8tdt-51gfblwFerWsRWtwFV0xCg', '_blank')}
               >
                 Need Help?
