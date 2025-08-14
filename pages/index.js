@@ -1,8 +1,10 @@
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 export default function Home() {
+  const [countdownText, setCountdownText] = useState('')
+  const [isTimezoneReady, setIsTimezoneReady] = useState(false)
   useEffect(() => {
     // Load external scripts
     const loadScript = (src, integrity = null, crossorigin = null) => {
@@ -34,12 +36,9 @@ export default function Home() {
     }, 2000)
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [isTimezoneReady])
 
   const initializeCountdown = () => {
-    const countdownDisplay = document.getElementById('countdown-display')
-    if (!countdownDisplay) return
-
     function updateCountdown() {
       const now = new Date()
       let targetDate = new Date()
@@ -57,10 +56,12 @@ export default function Home() {
 
       targetDate.setDate(now.getDate() + daysUntilTarget)
 
+      // Always get timezone info, even if countdown library isn't loaded
+      const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
       if (typeof window !== 'undefined' && window.countdown) {
         const units = window.countdown.DAYS | window.countdown.HOURS | window.countdown.MINUTES | window.countdown.SECONDS
         const ts = window.countdown(now, targetDate, units)
-        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
         let countdownString = ""
         if (ts.value > 0) {
@@ -78,7 +79,34 @@ export default function Home() {
           countdownString = "REMIX CHALLENGE HAS ENDED!"
         }
 
-        countdownDisplay.textContent = countdownString
+        setCountdownText(countdownString)
+      } else {
+        // Fallback if countdown library doesn't load
+        const timeDiff = targetDate.getTime() - now.getTime()
+        if (timeDiff > 0) {
+          const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24))
+          const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+          const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60))
+          const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000)
+
+          let countdownString = "REMIX CHALLENGE ENDS IN: "
+          if (days) countdownString += `${days} days, `
+          if (hours) countdownString += `${hours} hours, `
+          if (minutes) countdownString += `${minutes} minutes, `
+          if (seconds) countdownString += `${seconds} seconds`
+
+          if (countdownString.endsWith(', ')) {
+            countdownString = countdownString.slice(0, -2)
+          }
+          countdownString += ` (in your timezone: ${userTimezone})`
+          setCountdownText(countdownString)
+        } else {
+          setCountdownText("REMIX CHALLENGE HAS ENDED!")
+        }
+      }
+
+      if (!isTimezoneReady) {
+        setIsTimezoneReady(true)
       }
     }
 
@@ -132,13 +160,13 @@ export default function Home() {
               crossOrigin="anonymous"/>
       </Head>
 
-      <div className="bg-pink-500 min-h-screen flex flex-col items-center justify-center" style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f87171' fill-opacity='0.5'%3E%3Cpath d='M0 40c0-6.627 5.373-12 12-12s12 5.373 12 12H0zm28 0c0-6.627 5.373-12 12-12v12H28zM0 28c6.627 0 12-5.373 12-12S6.627 4 0 4v24zM40 4c-6.627 0-12 5.373-12 12s5.373 12 12 12V4z'/%3E%3C/g%3E%3C/svg%3E")`
-      }}>
+      <div className="bg-pink-500 heropattern-pianoman-red-100/50 min-h-screen flex flex-col items-center justify-center"
+      >
         {/* Marquee Banner */}
         <div 
           className="marqueefy w-full border-4 border-dashed px-5 mb-8" 
-          id="example3" 
+          id="example3"
+          data-mq-speed="100"
           style={{
             height: '75px',
             width: '75%',
@@ -147,7 +175,7 @@ export default function Home() {
         >
           <div className="content flex items-center justify-center h-full">
             <span id="countdown-display" className="font-bold text-black uppercase text-2xl">
-              REMIX CHALLENGE ENDS: Today at 11:59 pm EST.
+              {isTimezoneReady ? countdownText : 'Loading...'}
             </span>
           </div>
         </div>
@@ -195,14 +223,6 @@ export default function Home() {
               >
                 Submit Remix
               </button>
-              {/*<Link href="/projects">*/}
-              {/*  <button*/}
-              {/*    type="button"*/}
-              {/*    className="w-48 h-16 bg-white text-lg font-bold text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"*/}
-              {/*  >*/}
-              {/*    View Projects*/}
-              {/*  </button>*/}
-              {/*</Link>*/}
               <button
                 type="button"
                 className="w-48 h-16 bg-white text-lg text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md"
