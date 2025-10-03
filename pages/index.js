@@ -1,42 +1,54 @@
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 
 export default function Home() {
   const [countdownText, setCountdownText] = useState('')
   const [isTimezoneReady, setIsTimezoneReady] = useState(false)
+  const marqueefyInitialized = useRef(false)
+
   useEffect(() => {
-    // Load external scripts
     const loadScript = (src, integrity = null, crossorigin = null) => {
-      const script = document.createElement('script')
-      script.src = src
-      if (integrity) script.integrity = integrity
-      if (crossorigin) script.crossOrigin = crossorigin
-      document.body.appendChild(script)
-      return script
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = src
+        if (integrity) script.integrity = integrity
+        if (crossorigin) script.crossOrigin = crossorigin
+        script.onload = () => resolve(script)
+        script.onerror = () => reject(new Error(`Failed to load script: ${src}`))
+        document.body.appendChild(script)
+      })
     }
 
-    // Load all the required scripts
-    loadScript('https://unpkg.com/@strudel/embed@latest')
-    loadScript('https://unpkg.com/@strudel/repl@latest')
-    loadScript('https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js')
-    loadScript('https://cdn.jsdelivr.net/npm/keen-slider@6.8.5/keen-slider.min.js')
-    loadScript('https://cdn.jsdelivr.net/npm/simple-notify/dist/simple-notify.min.js')
-    loadScript(
-      'https://cdn.jsdelivr.net/npm/@marqueefy/marqueefy@1.0.3/dist/js/marqueefy.min.js',
-      'sha384-GkNdpzZA0aigYQs7bhB94ikrs1rxyzcoGZqE/KBxsvvsQPERiMHw4vrDlCgDewnu',
-      'anonymous'
-    )
-    loadScript('https://unpkg.com/countdown@2.6.0/countdown.min.js')
+    const loadScripts = async () => {
+      try {
+        await Promise.all([
+          loadScript('https://unpkg.com/@strudel/embed@latest'),
+          loadScript('https://unpkg.com/@strudel/repl@latest'),
+          loadScript('https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js'),
+          loadScript('https://cdn.jsdelivr.net/npm/keen-slider@6.8.5/keen-slider.min.js'),
+          loadScript('https://cdn.jsdelivr.net/npm/simple-notify/dist/simple-notify.min.js'),
+          loadScript(
+            'https://cdn.jsdelivr.net/npm/@marqueefy/marqueefy@1.0.3/dist/js/marqueefy.min.js',
+            'sha384-GkNdpzZA0aigYQs7bhB94ikrs1rxyzcoGZqE/KBxsvvsQPERiMHw4vrDlCgDewnu',
+            'anonymous'
+          ),
+          loadScript('https://unpkg.com/countdown@2.6.0/countdown.min.js')
+        ])
 
-    // Wait for scripts to load before initializing
-    const timer = setTimeout(() => {
-      initializeCountdown()
-      initializeMarqueefy()
-    }, 2000)
+        initializeCountdown()
+        initializeMarqueefy()
+      } catch (error) {
+        console.error('Error loading scripts:', error)
+      }
+    }
 
-    return () => clearTimeout(timer)
-  }, [isTimezoneReady])
+    loadScripts()
+
+    return () => {
+      marqueefyInitialized.current = false
+    }
+  }, [])
 
   const initializeCountdown = () => {
     function updateCountdown() {
@@ -86,15 +98,16 @@ export default function Home() {
 
     updateCountdown()
     setIsTimezoneReady(true)
-    const countdownInterval = setInterval(updateCountdown, 1000)
+    setInterval(updateCountdown, 1000)
   }
 
   const initializeMarqueefy = () => {
-    if (typeof window !== 'undefined' && window.marqueefy) {
+    if (typeof window !== 'undefined' && window.marqueefy && !marqueefyInitialized.current) {
       const marqueefyElement = document.getElementById('example3')
       if (marqueefyElement) {
         try {
           new window.marqueefy.Marqueefy(marqueefyElement, {direction: 'left', speed: 50})
+          marqueefyInitialized.current = true
         } catch (error) {
           console.log('Marqueefy initialization error:', error)
         }
@@ -135,58 +148,56 @@ export default function Home() {
               crossOrigin="anonymous"/>
       </Head>
 
-      <div className="bg-pink-500 heropattern-pianoman-red-100/50 min-h-screen flex flex-col items-center justify-center"
+      <div className="bg-pink-500 heropattern-pianoman-red-100/50 min-h-screen flex flex-col"
       >
-        {/* Marquee Banner */}
-        {isTimezoneReady && (
-          <div 
-            className="marqueefy w-full border-4 border-dashed px-5 mb-8" 
-            id="example3"
-            data-mq-speed="100"
-            style={{
-              height: '75px',
-              width: '75%',
-              backgroundColor: 'rgba(128, 128, 128, 0.1)'
-            }}
-          >
-            <div className="content flex items-center justify-center h-full">
-              <span id="countdown-display" className="font-bold text-black uppercase text-2xl">
-                {countdownText}
-              </span>
-            </div>
+        {/* Marquee Banner - Fixed at top */}
+        <div
+          className="marqueefy w-full border-y-4 border-dashed px-5 py-6"
+          id="example3"
+          style={{
+            backgroundColor: 'rgba(128, 128, 128, 0.1)'
+          }}
+        >
+          <div className="content flex items-center justify-center h-full">
+            <span className="text-white text-3xl md:text-5xl font-bold">REMIX CHALLENGE</span>
           </div>
-        )}
+        </div>
 
         {/* Hack Club Flag */}
-        <a href="http://hackclub.com" className="absolute top-0 left-0 right-20"
-        style={{ backgroundSize: 'contain', width: '300px', height: '300px'}}
+        <a
+          href="https://hackclub.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fixed top-0 left-0 z-50 w-32 h-32 md:w-40 md:h-40 transition-transform hover:scale-105"
         >
-          <img src="/flag.svg" alt="Hack Club" />
+          <img src="/flag.svg" alt="Hack Club Flag" className="w-full h-full object-contain" />
         </a>
 
-        {/* Description Section */}
-        <section className="w-full max-w-3xl mx-auto items-center mt-16">
-          <p className="text-gray-800 font-bold text-center text-2xl md:text-3xl mb-4"
-             style={{fontFamily: "'Bitcount Grid Double', monospace"}}>
-            Start Making Music Now! 🎵
-          </p>
-          <p className="text-center mt-4 border-4 border-gray-800 rounded-lg p-4 text-gray-800 md:text-xl leading-relaxed bg-white">
-            <span className="font-bold">Just click PLAY ▶️ and Strudel Repl Logo below to get started!</span> Change notes, add
-            effects, or swap instruments. When you're done, submit your remix to win exclusive stickers and get featured in a showcase!
-          </p>
-        </section>
+        {/* Content Container */}
+        <div className="flex-1 flex flex-col items-center justify-center py-8 px-4">
+          {/* Description Section */}
+          <section className="w-full max-w-5xl mx-auto items-center mb-12">
+            <p className="text-gray-800 font-bold text-center text-3xl md:text-5xl mb-6"
+               style={{fontFamily: "'Bitcount Grid Double', monospace"}}>
+              Start Making Music Now! 🎵
+            </p>
+            <p className="text-center border-4 border-gray-800 rounded-lg p-6 text-gray-800 text-xl md:text-2xl leading-relaxed bg-white">
+              <span className="font-bold">Just click PLAY ▶️ and Strudel Repl Logo below to get started!</span> Change notes, add
+              effects, or swap instruments. When you're done, submit your remix to win exclusive stickers and get featured in a showcase!
+            </p>
+          </section>
 
-        {/* Main Content */}
-        <section className="w-full max-w-max mx-auto mt-4 mb-4 p-6 flex flex-col md:flex-row items-center justify-center gap-4">
-          <img src="/logo.svg" alt="Remix Logo" className="w-96 h-64" />
+          {/* Main Content */}
+          <section className="w-full max-w-7xl mx-auto px-4 mb-8 flex flex-col lg:flex-row items-center justify-center gap-8">
+          <img src="/logo.svg" alt="Remix Logo" className="w-full max-w-lg h-auto" />
 
-          <main id="strudel" className="flex rounded-lg flex-col items-center justify-center">
-            <div className="iframe-container">
+          <main id="strudel" className="flex rounded-lg flex-col items-center justify-center w-full">
+            <div className="iframe-container w-full">
               <iframe
                 src="https://strudel.cc/#Ly8gQ2xpY2sgUExBWSDigLYgYW5kIHN0YXJ0IHJlbWl4aW5nIQoKc2V0Y3BzKDEpIC8vIFRlbXBvOiBUcnkgMC44IChmb3Igc2xvd2VyKSBvciAxLjIgKGZvciBmYXN0ZXIpCgpzdGFjaygKICAvLyBNQUlOIE1FTE9EWSAtIFRyeSBjaGFuZ2luZyB0aGUgbnVtYmVycyEKICBuKCI8MCAzIDUgNyAzIDUgMiAwPiIpLnNjYWxlKCdHNCBtaW5vcicpCiAgICAucygiZ21fZWxlY3RyaWNfcGlhbm9fMSIpCiAgICAuZ2FpbigwLjYpLAoKICAvLyBEUlVNUyAtIENoYW5nZSAiYmQgaGggc2QgaGgiIGZvciBkaWZmZXJlbnQgYmVhdHMhCiAgc291bmQoImJkIGhoIHNkIGhoIiksCgogIC8vIEJBU1MgLSBUcnkgZGlmZmVyZW50IG5vdGVzOiAiZzIgZDIgYzIgZzIiCiAgbm90ZSgiZzIgZDIgYzIgZzIiKQogICAgLnMoImdtX2Fjb3VzdGljX2Jhc3MiKQogICAgLmdhaW4oMS4xKQopCgovLyBFeHBlcmltZW50ISBUcnkgY2hhbmdpbmcgbnVtYmVycywgbm90ZXMsIG9yIHNvdW5kcyBhYm92ZS4KLy8gV2hlbiB5b3UncmUgaGFwcHksIGNsaWNrIFNIQVJFIGFuZCBzdWJtaXQgeW91ciBsaW5rIQ=="
-                width="600"
-                height="300"
-                className="rounded-lg shadow-lg"
+                width="100%"
+                height="400"
+                className="rounded-lg shadow-lg max-w-3xl"
                 title="Strudel Live Editor"
                 allowFullScreen
                 loading="lazy"
@@ -194,35 +205,33 @@ export default function Home() {
             </div>
 
             {/* Buttons */}
-            <section className="flex flex-col sm:flex-row gap-4 mt-6">
+            <section className="flex flex-col sm:flex-row gap-6 mt-8">
               <button
                 type="button"
-                className="w-48 h-16 bg-white text-lg font-bold text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
+                className="w-56 h-20 bg-white text-xl font-bold text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
                 onClick={() => window.open('https://forms.hackclub.com/t/vhWBAyQzKrus', '_blank')}
               >
                 Submit Remix
               </button>
-                <Link href="/projects"
-                      prefetch={true}
+              <Link href="/projects" prefetch={true}>
+                <button
+                  type="button"
+                  className="w-56 h-20 bg-white text-xl font-bold text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
                 >
-                    <button
-                        type="button"
-                        className="w-48 h-16 bg-white text-lg font-bold text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
-                    >
-
-                        view projects
-                    </button>
-                </Link>
+                  View Projects
+                </button>
+              </Link>
               <button
                 type="button"
-                className="w-48 h-16 bg-white text-lg font-bold text-gray-900 px-5 py-2.5 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
+                className="w-56 h-20 bg-white text-xl font-bold text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
                 onClick={() => window.open('https://join.slack.com/t/hackclub/shared_invite/zt-397pq8tdt-51gfblwFerWsRWtwFV0xCg', '_blank')}
               >
                 Need Help?
               </button>
             </section>
           </main>
-        </section>
+          </section>
+        </div>
       </div>
     </>
   )
