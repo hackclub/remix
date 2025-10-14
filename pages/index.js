@@ -1,11 +1,17 @@
 import Head from 'next/head'
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
+import FaqDialog from '../components/FaqDialog';
 
 export default function Home() {
   const [countdownText, setCountdownText] = useState('')
   const [isTimezoneReady, setIsTimezoneReady] = useState(false)
+  const [showFaqDialog, setShowFaqDialog] = useState(false)
   const marqueefyInitialized = useRef(false)
+
+  const onToggleFaqDialog = () => {
+    setShowFaqDialog((value) => !value)
+  }
 
   useEffect(() => {
     const loadScript = (src, integrity = null, crossorigin = null) => {
@@ -146,22 +152,23 @@ export default function Home() {
               href="https://cdn.jsdelivr.net/npm/@marqueefy/marqueefy@1.0.3/dist/css/marqueefy.min.css"
               integrity="sha384-wADgvhAqbORDLWCl6LHRmwaldDxcsCZJ9EfC4tyLmlqRSrxK8SQSmUprPJYdtCZb"
               crossOrigin="anonymous"/>
+        <link rel="stylesheet" href="https://unpkg.com/rc-dialog@9.6.0/assets/index.css"/>
       </Head>
 
       <div className="bg-pink-500 heropattern-pianoman-red-100/50 min-h-screen flex flex-col"
       >
         {/* Marquee Banner - Fixed at top */}
-        <div
-          className="marqueefy w-full border-y-4 border-dashed px-5 py-6"
-          id="example3"
-          style={{
-            backgroundColor: 'rgba(128, 128, 128, 0.1)'
-          }}
-        >
-          <div className="content flex items-center justify-center h-full">
-            <span className="text-white text-3xl md:text-5xl font-bold">REMIX CHALLENGE</span>
-          </div>
-        </div>
+        {/*<div*/}
+        {/*  className="marqueefy w-full border-y-4 border-dashed px-5 py-6"*/}
+        {/*  id="example3"*/}
+        {/*  style={{*/}
+        {/*    backgroundColor: 'rgba(128, 128, 128, 0.1)'*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <div className="content flex items-center justify-center h-full">*/}
+        {/*    <span className="text-white text-3xl md:text-5xl font-bold">REMIX CHALLENGE</span>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
 
         {/* Hack Club Flag */}
         <a
@@ -173,6 +180,19 @@ export default function Home() {
           <img src="/flag.svg" alt="Hack Club Flag" className="w-full h-full object-contain" />
         </a>
 
+        {/* Info Button - Top Right */}
+        <button
+          type="button"
+          onClick={onToggleFaqDialog}
+          className="fixed top-4 right-4 z-50 px-6 py-3 bg-white text-gray-900 rounded-full shadow-lg hover:bg-gray-100 transition-transform hover:scale-110 flex items-center justify-center font-bold text-xl border-4 border-gray-800"
+          aria-label="Open FAQ"
+        >
+          FAQ
+        </button>
+
+        {/* FAQ Dialog */}
+        <FaqDialog visible={showFaqDialog} onClose={onToggleFaqDialog} />
+
         {/* Content Container */}
         <div className="flex-1 flex flex-col items-center justify-center py-8 px-4">
           {/* Description Section */}
@@ -183,7 +203,7 @@ export default function Home() {
             </p>
             <p className="text-center border-4 border-gray-800 rounded-lg p-6 text-gray-800 text-xl md:text-2xl leading-relaxed bg-white">
               <span className="font-bold">Just click PLAY ▶️ and Strudel Repl Logo below to get started!</span> Change notes, add
-              effects, or swap instruments. When you're done, submit your remix to win exclusive stickers and get featured in a showcase!
+              effects, or swap instruments. When you're done, submit your remix to win one month of <strong>Apple Music</strong>, <strong>Spotify Premium</strong>, or <strong>SoundCloud Pro</strong>!
             </p>
           </section>
 
@@ -213,14 +233,14 @@ export default function Home() {
               >
                 Submit Remix
               </button>
-              <Link href="/projects" prefetch={true}>
-                <button
-                  type="button"
-                  className="w-56 h-20 bg-white text-xl font-bold text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
-                >
-                  View Projects
-                </button>
-              </Link>
+              {/*<Link href="/projects" prefetch={true}>*/}
+              {/*  <button*/}
+              {/*    type="button"*/}
+              {/*    className="w-56 h-20 bg-white text-xl font-bold text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"*/}
+              {/*  >*/}
+              {/*    View Projects*/}
+              {/*  </button>*/}
+              {/*</Link>*/}
               <button
                 type="button"
                 className="w-56 h-20 bg-white text-xl font-bold text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"

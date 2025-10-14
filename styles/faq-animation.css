@@ -1,0 +1,106 @@
+/* Animated border effect for FAQ dialog */
+@keyframes borderPulse {
+  0%, 100% {
+    border-color: rgba(31, 41, 55, 1);
+    box-shadow:
+      0 0 0 rgba(63, 209, 203, 0),
+      inset 0 0 0 rgba(63, 209, 203, 0);
+  }
+  50% {
+    border-color: rgba(63, 209, 203, 0.8);
+    box-shadow:
+      0 0 20px rgba(63, 209, 203, 0.3),
+      inset 0 0 20px rgba(63, 209, 203, 0.1);
+  }
+}
+
+@keyframes borderDash {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 1000;
+  }
+}
+
+/* Piano strum animation - dashes move around the border */
+@keyframes pianoStrum {
+  0% {
+    background-position: 0 0, 0 0, 100% 100%, 0 100%;
+  }
+  100% {
+    background-position: 100% 0, 100% 0, 100% 0, 0 0;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 0px rgba(63, 209, 203, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 10px rgba(63, 209, 203, 0.6));
+  }
+}
+
+.faq-dialog-animated {
+  position: relative;
+}
+
+.faq-item-animated {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.faq-item-animated:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 10px 25px rgba(31, 41, 55, 0.1),
+    0 0 15px rgba(63, 209, 203, 0.2);
+  border-color: rgba(63, 209, 203, 0.6);
+}
+
+.faq-header-animated {
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+/* Staggered entrance animation for FAQ items - REMOVED */
+
+/* Pixelated border effect */
+.pixelated-border {
+  position: relative;
+}
+
+.pixelated-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 4px solid transparent;
+  border-radius: 0.5rem;
+  background:
+    linear-gradient(90deg, rgba(63, 209, 203, 0.3) 50%, transparent 50%) 0 0,
+    linear-gradient(90deg, rgba(63, 209, 203, 0.3) 50%, transparent 50%) 0 100%,
+    linear-gradient(0deg, rgba(63, 209, 203, 0.3) 50%, transparent 50%) 0 0,
+    linear-gradient(0deg, rgba(63, 209, 203, 0.3) 50%, transparent 50%) 100% 0;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 8px 4px, 8px 4px, 4px 8px, 4px 8px;
+  animation: pixelBorderMove 2s linear infinite;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pixelated-border:hover::after {
+  opacity: 1;
+}
+
+@keyframes pixelBorderMove {
+  0% {
+    background-position: 0 0, 0 100%, 0 0, 100% 0;
+  }
+  100% {
+    background-position: 16px 0, -16px 100%, 0 -16px, 100% 16px;
+  }
+}
