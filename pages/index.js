@@ -107,20 +107,6 @@ export default function Home() {
     setInterval(updateCountdown, 1000)
   }
 
-  const initializeMarqueefy = () => {
-    if (typeof window !== 'undefined' && window.marqueefy && !marqueefyInitialized.current) {
-      const marqueefyElement = document.getElementById('example3')
-      if (marqueefyElement) {
-        try {
-          new window.marqueefy.Marqueefy(marqueefyElement, {direction: 'left', speed: 50})
-          marqueefyInitialized.current = true
-        } catch (error) {
-          console.log('Marqueefy initialization error:', error)
-        }
-      }
-    }
-  }
-
   return (
     <>
       <Head>
@@ -171,24 +157,28 @@ export default function Home() {
         {/*</div>*/}
 
         {/* Hack Club Flag */}
-        <a
-          href="https://hackclub.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="fixed top-0 left-0 z-50 w-32 h-32 md:w-40 md:h-40 transition-transform hover:scale-105"
-        >
-          <img src="/flag.svg" alt="Hack Club Flag" className="w-full h-full object-contain" />
-        </a>
+        <div className="fixed top-0 left-0 z-50 overflow-hidden">
+          <a
+              href="https://hackclub.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              width="30%"
+              className="block transition-transform hover:scale-105"
+          >
+              <img src="/flag.svg" alt="Hack Club Flag" className="w-full h-full object-contain"/>
+          </a>
+            {/* Info Button - Top Right */}
+            <button
+                type="button"
+                onClick={onToggleFaqDialog}
+                className="fixed top-4 right-4 z-50 px-6 py-3 bg-white text-gray-900 rounded-full shadow-lg hover:bg-gray-100 transition-transform hover:scale-110 flex items-center justify-center font-bold text-xl border-4 border-gray-800"
+                aria-label="Open FAQ"
+            >
+                FAQ
+            </button>
+        </div>
 
-        {/* Info Button - Top Right */}
-        <button
-          type="button"
-          onClick={onToggleFaqDialog}
-          className="fixed top-4 right-4 z-50 px-6 py-3 bg-white text-gray-900 rounded-full shadow-lg hover:bg-gray-100 transition-transform hover:scale-110 flex items-center justify-center font-bold text-xl border-4 border-gray-800"
-          aria-label="Open FAQ"
-        >
-          FAQ
-        </button>
+
 
         {/* FAQ Dialog */}
         <FaqDialog visible={showFaqDialog} onClose={onToggleFaqDialog} />
