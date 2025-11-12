@@ -22,7 +22,7 @@ export default function FaqDialog({ visible, onClose }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-white border-4 border-gray-800 rounded-lg p-6 faq-item-animated pixelated-border">
             <h3 className="text-gray-900 text-xl font-bold mb-2">What is the Remix Challenge?</h3>
-            <p className="text-gray-800 text-base">The Remix Challenge is a creative coding event where you use Strudel to make music! Remix the starter beat, add your own style, and submit it win one month of Apple Music, Spotify Premium, SoundCloud Pro .</p>
+            <p className="text-gray-800 text-base">The Remix Challenge is a creative coding event where you use Strudel to remix the beats of an existing song in Strudel. Add your own style and submit it to win one month of <strong>Apple Music</strong>, <strong>Spotify Premium</strong>, or <strong>SoundCloud Pro</strong>. <span className="font-bold">Requirement:</span> Your beat must remix the beats of an existing song. New deadline: <strong>November 30</strong>.</p>
           </div>
 
           <div className="bg-white border-4 border-gray-800 rounded-lg p-6 faq-item-animated pixelated-border">
