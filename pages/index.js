@@ -117,15 +117,7 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"/>
         <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&display=swap"
               rel="stylesheet"/>
-        <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"/>
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/keen-slider@6.8.5/keen-slider.min.css"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify/dist/simple-notify.css"/>
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/@marqueefy/marqueefy@1.0.3/dist/css/marqueefy.min.css"
-              integrity="sha384-wADgvhAqbORDLWCl6LHRmwaldDxcsCZJ9EfC4tyLmlqRSrxK8SQSmUprPJYdtCZb"
-              crossOrigin="anonymous"/>
-        <link rel="stylesheet" href="https://unpkg.com/rc-dialog@9.6.0/assets/index.css"/>
+        {/* External stylesheets are loaded in _document.js */}
       </Head>
 
       <div className="bg-pink-500 heropattern-pianoman-red-100/50 min-h-screen flex flex-col"
