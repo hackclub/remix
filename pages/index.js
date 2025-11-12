@@ -59,20 +59,7 @@ export default function Home() {
   const initializeCountdown = () => {
     function updateCountdown() {
       const now = new Date()
-      let targetDate = new Date()
-      targetDate.setHours(12, 59, 0, 0) // Set time to 12:59 PM on the current day.
-
-      const dayOfWeek = now.getDay() // 0=Sun, 1=Mon, ..., 5=Fri, 6=Sat
-      const targetDay = 5 // Friday
-
-      let daysUntilTarget = (targetDay - dayOfWeek + 7) % 7
-
-      // If it's Friday and past 12:59, the target is next Friday.
-      if (dayOfWeek === targetDay && now.getTime() > targetDate.getTime()) {
-        daysUntilTarget = 7
-      }
-
-      targetDate.setDate(now.getDate() + daysUntilTarget)
+      const targetDate = new Date(2025, 10, 30, 23, 59, 59, 0) // November is month 10 (0-indexed)
 
       // Always get timezone info
       const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -194,6 +181,8 @@ export default function Home() {
             <p className="text-center border-4 border-gray-800 rounded-lg p-6 text-gray-800 text-xl md:text-2xl leading-relaxed bg-white">
               <span className="font-bold">Just click PLAY ▶️ and Strudel Repl Logo below to get started!</span> Change notes, add
               effects, or swap instruments. When you're done, submit your remix to win one month of <strong>Apple Music</strong>, <strong>Spotify Premium</strong>, or <strong>SoundCloud Pro</strong>!
+              <br/>
+              <span className="font-bold">Requirement:</span> You must remix the beats of an existing song in Strudel. New deadline: <strong>November 30</strong>.
             </p>
           </section>
 
