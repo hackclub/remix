@@ -117,7 +117,15 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"/>
         <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&display=swap"
               rel="stylesheet"/>
-        {/* External stylesheets are loaded in _document.js */}
+        <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet"/>
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/keen-slider@6.8.5/keen-slider.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify/dist/simple-notify.css"/>
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/@marqueefy/marqueefy@1.0.3/dist/css/marqueefy.min.css"
+              integrity="sha384-wADgvhAqbORDLWCl6LHRmwaldDxcsCZJ9EfC4tyLmlqRSrxK8SQSmUprPJYdtCZb"
+              crossOrigin="anonymous"/>
+        <link rel="stylesheet" href="https://unpkg.com/rc-dialog@9.6.0/assets/index.css"/>
       </Head>
 
       <div className="bg-pink-500 heropattern-pianoman-red-100/50 min-h-screen flex flex-col"
@@ -136,7 +144,7 @@ export default function Home() {
         {/*</div>*/}
 
         {/* Hack Club Flag */}
-        <div className="fixed top-0 left-0 z-50 overflow-hidden">
+        <div className="w-full z-50 flex flex-row items-center justify-between">
           <a
               href="https://hackclub.com"
               target="_blank"
@@ -150,7 +158,7 @@ export default function Home() {
             <button
                 type="button"
                 onClick={onToggleFaqDialog}
-                className="fixed top-4 right-4 z-50 px-6 py-3 bg-white text-gray-900 rounded-full shadow-lg hover:bg-gray-100 transition-transform hover:scale-110 flex items-center justify-center font-bold text-xl border-4 border-gray-800"
+            className="fixed top-4 right-0 z-50 px-6 py-3 bg-white text-gray-900 rounded-full shadow-lg hover:bg-gray-100 transition-transform hover:scale-110 flex items-center justify-center font-bold text-xl border-4 border-gray-800 mr-[6]"
                 aria-label="Open FAQ"
             >
                 FAQ
@@ -165,7 +173,7 @@ export default function Home() {
         {/* Content Container */}
         <div className="flex-1 flex flex-col items-center justify-center py-8 px-4">
           {/* Description Section */}
-          <section className="w-full max-w-5xl mx-auto items-center mb-12">
+          <section className="w-full max-w-5xl mx-auto items-center mb-[50]">
             <p className="text-gray-800 font-bold text-center text-3xl md:text-5xl mb-6"
                style={{fontFamily: "'Bitcount Grid Double', monospace"}}>
               Start Making Music Now! 🎵
@@ -179,10 +187,10 @@ export default function Home() {
           </section>
 
           {/* Main Content */}
-          <section className="w-full max-w-7xl mx-auto px-4 mb-8 flex flex-col lg:flex-row items-center justify-center gap-8">
-          <img src="/logo.svg" alt="Remix Logo" className="w-full max-w-lg h-auto" />
+          <section className="w-full max-w-7xl mx-auto px-4 mb-8 flex flex-row items-center justify-center gap-12">
+          <img src="/logo.svg" alt="Remix Logo" className="w-1/2 h-auto" />
 
-          <main id="strudel" className="flex rounded-lg flex-col items-center justify-center w-full">
+          <main id="strudel" className="flex rounded-lg flex-col items-center justify-center w-1/2">
             <div className="iframe-container w-full">
               <iframe
                 src="https://strudel.cc/#Ly8gQ2xpY2sgUExBWSDigLYgYW5kIHN0YXJ0IHJlbWl4aW5nIQoKc2V0Y3BzKDEpIC8vIFRlbXBvOiBUcnkgMC44IChmb3Igc2xvd2VyKSBvciAxLjIgKGZvciBmYXN0ZXIpCgpzdGFjaygKICAvLyBNQUlOIE1FTE9EWSAtIFRyeSBjaGFuZ2luZyB0aGUgbnVtYmVycyEKICBuKCI8MCAzIDUgNyAzIDUgMiAwPiIpLnNjYWxlKCdHNCBtaW5vcicpCiAgICAucygiZ21fZWxlY3RyaWNfcGlhbm9fMSIpCiAgICAuZ2FpbigwLjYpLAoKICAvLyBEUlVNUyAtIENoYW5nZSAiYmQgaGggc2QgaGgiIGZvciBkaWZmZXJlbnQgYmVhdHMhCiAgc291bmQoImJkIGhoIHNkIGhoIiksCgogIC8vIEJBU1MgLSBUcnkgZGlmZmVyZW50IG5vdGVzOiAiZzIgZDIgYzIgZzIiCiAgbm90ZSgiZzIgZDIgYzIgZzIiKQogICAgLnMoImdtX2Fjb3VzdGljX2Jhc3MiKQogICAgLmdhaW4oMS4xKQopCgovLyBFeHBlcmltZW50ISBUcnkgY2hhbmdpbmcgbnVtYmVycywgbm90ZXMsIG9yIHNvdW5kcyBhYm92ZS4KLy8gV2hlbiB5b3UncmUgaGFwcHksIGNsaWNrIFNIQVJFIGFuZCBzdWJtaXQgeW91ciBsaW5rIQ=="
@@ -196,7 +204,7 @@ export default function Home() {
             </div>
 
             {/* Buttons */}
-            <section className="flex flex-col sm:flex-row gap-6 mt-8">
+            <section className="flex flex-row gap-6 mt-8">
               <button
                 type="button"
                 className="w-56 h-20 bg-white text-xl font-bold text-gray-900 px-6 py-3 rounded-lg hover:bg-gray-100 shadow-md transform hover:scale-105 transition-transform"
